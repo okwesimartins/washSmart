@@ -2,28 +2,26 @@ import nodemailer from 'nodemailer';
 import ejs from 'ejs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
+import smtpTransport from 'nodemailer-smtp-transport';
 
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 export const sendmail = async (receiver, otp) =>{
     const transporter = nodemailer.createTransport({
-        host: 'achan.ng',
-        port: 465,
-        auth: {
-          user: 'airporttaxi@achan.ng',
-          pass: 'watchout101'
-        },
-        // tls: {
-        //     rejectUnauthorized: false
-        // }
+      host: 'achan.ng',
+      port: 465,
+      auth: {
+        user: 'airporttaxi@achan.ng',
+        pass: 'watchout101'
+      },
+   
       });
      
       const mailOptions = {
         from: 'airporttaxi@achan.ng',
         to: receiver,
-        subject: 'OTP from washSmart',
+        subject: 'OTP from washSmart this is to validate your account',
         html: `<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
         <div style="margin:50px auto;width:70%;padding:20px 0">
           <div style="border-bottom:1px solid #eee">
