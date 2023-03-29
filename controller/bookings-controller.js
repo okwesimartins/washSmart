@@ -123,10 +123,7 @@ if(!user){
 
   return  res.status(400).json({message: "Internet Error"});    
    }
-   if(output.response && !output.response.data.status){
    
-      return  res.status(400).json({message: "Error Verifying Payment"})
-   }
    //next,we confirm that there was no error in verification.
    
 
@@ -160,11 +157,14 @@ if(!user){
    
        return console.log(err);
    }
-  
+   if(output.response && !output.response.data.status){
+   
+      const receiver = user.email;
+      sendOrderSummary(receiver, bookingdata, amount, orderNumber, booking_time);
+      return  res.status(400).json({message: "Error Verifying Payment"})
+   }
   
 
-   const receiver = user.email;
-   sendOrderSummary(receiver, bookingdata, amount, orderNumber, booking_time);
    return res.status(200).json({message: "Order completed"})
  }
 

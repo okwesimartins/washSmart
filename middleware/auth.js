@@ -3,7 +3,7 @@ import Jwt from "jsonwebtoken";
 
 
 export const verifyToken = (req, res, next)=>{
-    let token = req.cookies['auth_token'];
+    let token = req.headers['authorization'];
    
       if(!token){
         return res.status(401).json({message: "Unauthorized request"});
@@ -19,6 +19,7 @@ export const verifyToken = (req, res, next)=>{
             return res.status(401).json({message: "Unauthorized request"});
         }
 const verifieduser = Jwt.verify(token, process.env.TOKEN_SECRET);
+
 if(!verifieduser){
 return res.status(401).json({message: "Unauthorized request"});
 }

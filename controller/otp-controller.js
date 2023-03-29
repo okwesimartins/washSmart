@@ -16,7 +16,7 @@ export const generateOtp = async (req, res, next)=>{
     
 
     const {message}= sendmail(receiver, otp);
-
+    console.log(receiver);
     return res.status(200).json({encrypted_data: fullHash, message:message});
     
 

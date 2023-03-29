@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 export const sendmail = async (receiver, otp) =>{
     const transporter = nodemailer.createTransport({
         host: 'achan.ng',
-        port: 587,
+        port: 465,
         auth: {
           user: 'airporttaxi@achan.ng',
           pass: 'watchout101'
@@ -19,7 +19,7 @@ export const sendmail = async (receiver, otp) =>{
         //     rejectUnauthorized: false
         // }
       });
-      
+     
       const mailOptions = {
         from: 'airporttaxi@achan.ng',
         to: receiver,
@@ -63,11 +63,11 @@ export const sendOrderSummary = async (receiver, bookingdata, amount, orderNumbe
   console.log(amount);
   const transporter = nodemailer.createTransport({
       host: 'achan.ng',
-      port: 587,
+      port: 465,
       auth: {
         user: 'airporttaxi@achan.ng',
         pass: 'watchout101'
-      }
+      },
       // tls: {
       //     rejectUnauthorized: false
       // }
