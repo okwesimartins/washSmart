@@ -67,10 +67,8 @@ export const sendOrderSummary = async (receiver, bookingdata, amount, orderNumbe
       auth: {
         user: 'airporttaxi@achan.ng',
         pass: 'watchout101'
-      },
-      tls: {
-          rejectUnauthorized: false
       }
+      
     });
     ejs.renderFile(__dirname + '/templates/receipt.ejs', { receiver,  bookingdata, amount, orderNumber, booking_time }, (err, data) => {
           if(err){
