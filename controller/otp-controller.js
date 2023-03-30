@@ -15,9 +15,9 @@ export const generateOtp = async (req, res, next)=>{
     // you have to implement the function to send SMS yourself. For demo purpose. let's assume it's called sendSMS
     
 
-    const {message}= sendmail(receiver, otp);
+    sendmail(receiver, otp);
     console.log(receiver);
-    return res.status(200).json({encrypted_data: fullHash, message:message});
+    return res.status(200).json({"message":"Email Sent",encrypted_data: fullHash});
     
 
 }
