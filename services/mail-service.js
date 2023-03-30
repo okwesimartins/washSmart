@@ -15,7 +15,9 @@ export const sendmail = async (receiver, otp) =>{
         user: 'airporttaxi@achan.ng',
         pass: 'watchout101'
       },
-   
+      tls: {
+        rejectUnauthorized: false
+    }
       });
      
       const mailOptions = {
