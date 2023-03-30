@@ -229,7 +229,7 @@ export const login = async (req, res, next) => {
    let payload = { id: existinguser.id, user_type: existinguser.role };
    const token = jwt.sign(payload, process.env.TOKEN_SECRET);
    
-   return res.status(200).json({message: "Login Successful",token: token})
+   return res.status(200).json({message: "Login Successful Done",token: token})
 
 }
 
