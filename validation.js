@@ -34,3 +34,21 @@ export const loginValidation = data => {
     return schema.validate(data);
 
 };
+
+export const driverUpdateValidation = data => {
+    const schema = Joi.object( {
+        email: Joi.string()
+        .min(6)
+        .required()
+        .email(),
+        name: Joi.string()
+        .min(6)
+        .required(),
+        phone_number: Joi.string()
+        .min(6)
+        .required()
+    });
+
+    return schema.validate(data);
+
+};

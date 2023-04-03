@@ -9,7 +9,7 @@ import bcrypt from 'bcryptjs';
 const oauth2Client = new google.auth.OAuth2(
     '454924869328-m14q0u1deaca3b921vm69jevpth1tv1m.apps.googleusercontent.com',
     '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',
-    'http://localhost:5000/api/user/google/auth'
+    'https://washsmart.onrender.com/api/user/google/auth'
 );
 export const generateGoogleurl = async (req, res, next) => {
    

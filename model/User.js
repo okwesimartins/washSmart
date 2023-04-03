@@ -24,6 +24,10 @@ const userSchema = new Schema ({
               type: String,
               required: true
           },
+       location:{
+              type: String,
+              required: false
+       },
        bookings:[{
         type : mongoose.Types.ObjectId,
         ref: "Bookings",
