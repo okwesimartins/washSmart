@@ -372,9 +372,10 @@ export const updatForgotPassword = async (req, res, next)=>{
                return res.status(400).json({message: "No User Found With This Mail"})
              }else{
               const userid = checkUser.id;
+              const hashPassword = bcrypt.hashSync(password);
               try{
                  await User.findByIdAndUpdate(userid,{
-                    password : password
+                    password : hashPassword
                   })
               }catch(err){
                 console.log(err);
