@@ -349,7 +349,7 @@ export const updatePhonenumber = async (req, res, next)=>{
 
 export const updatForgotPassword = async (req, res, next)=>{
           const {email, newPassword, hash, otp} =  req.body;
-        
+          const key = 'hfbsybfuyerbdjshbdhsurhewiwecv';
           if(email && newPassword && hash && otp){
             let [hashValue,expires] = hash.split(".");
             let checkUser;
