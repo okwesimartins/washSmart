@@ -358,22 +358,24 @@ export const updatForgotPassword = async (req, res, next)=>{
             // Match the hashes
             if(newCalculatedHash === hashValue){
               try{
-                checkUser=  User.findOne({email});
+                checkUser= await User.findOne({email});
              }catch(err){
                console.log(err);
              }
              if(!checkUser){
                return res.status(400).json({message: "No User Found With This Mail"})
+             }else{
+              const userid = checkUser.id;
+              try{
+                 await User.findByIdAndDelete(userid,{
+                    password : newPassword
+                  })
+              }catch(err){
+                console.log(err);
+              }
+              return res.status(200).json({message: "Password updated"})
              }
-            const userid = checkUser.id;
-             try{
-                 User.findByIdAndDelete(userid,{
-                   password : newPassword
-                 })
-             }catch(err){
-               console.log(err);
-             }
-             return res.status(200).json({message: "Password updated"})
+          
             }else{
               return res.status(400).json({message: "Fraud Detected"})
             }
