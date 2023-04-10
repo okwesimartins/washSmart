@@ -2,7 +2,7 @@ import User from "../model/User.js";
 import crypto from 'crypto';
 import jwt from "jsonwebtoken";
 import { google } from "googleapis";
-import { registerationValidation, loginValidation } from "../validation.js";
+import { registerationValidation, loginValidation, forgotpasswordValidation } from "../validation.js";
 import axios from "axios";
 import bcrypt from 'bcryptjs';
 
@@ -350,12 +350,13 @@ export const updatePhonenumber = async (req, res, next)=>{
 export const updatForgotPassword = async (req, res, next)=>{
           const {email, password, hash, otp} =  req.body;
           const key = 'hfbsybfuyerbdjshbdhsurhewiwecv';
-          const {error} = loginValidation(req.body);
+          const {error} = forgotpasswordValidation(req.body);
 
            if(error){
               return res.status(400).json({message: error.details[0].message});
            }
           if(email && password && hash && otp){
+            
             let [hashValue,expires] = hash.split(".");
             let checkUser;
             let data  = `${email}.${otp}.${expires}`;
