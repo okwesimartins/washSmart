@@ -373,7 +373,7 @@ export const updatForgotPassword = async (req, res, next)=>{
              }else{
               const userid = checkUser.id;
               try{
-                 await User.findByIdAndDelete(userid,{
+                 await User.findByIdAndUpdate(userid,{
                     password : password
                   })
               }catch(err){
