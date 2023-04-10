@@ -1,5 +1,5 @@
 import User from "../model/User.js";
-
+import crypto from 'crypto';
 import jwt from "jsonwebtoken";
 import { google } from "googleapis";
 import { registerationValidation, loginValidation } from "../validation.js";
