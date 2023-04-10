@@ -35,6 +35,27 @@ export const loginValidation = data => {
 
 };
 
+
+export const forgotpasswordValidation = data => {
+    const schema = Joi.object( {
+        email: Joi.string()
+        .min(6)
+        .required()
+        .email(),
+        password: Joi.string()
+        .min(6)
+        .required(),
+        otp: Joi.string()
+        .required(),
+        hash: Joi.string()
+        .required()
+
+    });
+
+    return schema.validate(data);
+
+};
+
 export const driverUpdateValidation = data => {
     const schema = Joi.object( {
         email: Joi.string()
