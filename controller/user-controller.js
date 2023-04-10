@@ -344,3 +344,41 @@ export const updatePhonenumber = async (req, res, next)=>{
               return res.status(200).json({message: "phone-number updated"});
 
 }
+
+//forgot password
+
+export const updatForgotPassword = async (req, res, next)=>{
+          const {email, newPassword, hash, otp} =  req.body;
+        
+          if(email && newPassword && hash && otp){
+            let [hashValue,expires] = hash.split(".");
+            let checkUser;
+            let data  = `${email}.${otp}.${expires}`;
+            let newCalculatedHash = crypto.createHmac("sha256",key).update(data).digest("hex");
+            // Match the hashes
+            if(newCalculatedHash === hashValue){
+              try{
+                checkUser=  User.findOne({email});
+             }catch(err){
+               console.log(err);
+             }
+             if(!checkUser){
+               return res.status(400).json({message: "No User Found With This Mail"})
+             }
+            const userid = checkUser.id;
+             try{
+                 User.findByIdAndDelete(userid,{
+                   password : newPassword
+                 })
+             }catch(err){
+               console.log(err);
+             }
+             return res.status(200).json({message: "Password updated"})
+            }else{
+              return res.status(400).json({message: "Fraud Detected"})
+            }
+         
+          }
+         
+      return res.status(400).json({message: "All Fields Are Required"})
+}
