@@ -348,14 +348,14 @@ export const updatePhonenumber = async (req, res, next)=>{
 //forgot password
 
 export const updatForgotPassword = async (req, res, next)=>{
-          const {email, newPassword, hash, otp} =  req.body;
+          const {email, password, hash, otp} =  req.body;
           const key = 'hfbsybfuyerbdjshbdhsurhewiwecv';
           const {error} = loginValidation(req.body);
 
            if(error){
               return res.status(400).json({message: error.details[0].message});
            }
-          if(email && newPassword && hash && otp){
+          if(email && password && hash && otp){
             let [hashValue,expires] = hash.split(".");
             let checkUser;
             let data  = `${email}.${otp}.${expires}`;
@@ -373,7 +373,7 @@ export const updatForgotPassword = async (req, res, next)=>{
               const userid = checkUser.id;
               try{
                  await User.findByIdAndDelete(userid,{
-                    password : newPassword
+                    password : password
                   })
               }catch(err){
                 console.log(err);
