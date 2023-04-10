@@ -32,6 +32,11 @@ const pricingSchema = new Schema({
             type: Array,
             default: [],
             required: true
+          },
+          native_wear:{
+            type: Array,
+            default: [],
+            required: true
           }
        },
        ironing:{

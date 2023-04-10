@@ -62,7 +62,8 @@ export const updatePricing = async (req, res, next) => {
                         top: dry_cleaning.top,
                         bottom: dry_cleaning.bottom,
                         full_body: dry_cleaning.full_body,
-                        house_hold: dry_cleaning.house_hold
+                        house_hold: dry_cleaning.house_hold,
+                        native_wear : dry_cleaning.native_wear,
                     },
                     ironing
                  });
