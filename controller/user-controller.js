@@ -55,6 +55,32 @@ export const generateGoogleurl = async (req, res, next) => {
     return googleUser;
 }
 
+//get google location
+export const getLocation = async (req, res, next) =>{
+    const location = req.body.location;
+    const cleanedData = location.replace(' ','%20');
+    if(!location){
+      return res.status(400).json({message: "All fields are required"})
+     }
+    const googleLocation = await axios
+    .get(
+      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${cleanedData}&components=country:ng&key=AIzaSyAN4lc1-JLSGrY97rGNQ9RpiQAoq3KuRbg`,
+    
+    )
+    .then(res => res.data)
+    .catch(error => {
+      throw new Error(error.message);
+    });
+   
+   const array =[];
+   const prediction = googleLocation.predictions;
+   prediction.forEach(value=>{
+        const filteredData = value.description;
+        array.push(filteredData);
+    })
+
+    return res.status(200).json(array);
+}
 export const addGoogleuser = async (req, res, next)=> {
     const code = req.query.code;
     
@@ -118,9 +144,19 @@ export const addGoogleuser = async (req, res, next)=> {
 export const signup = async (req, res, next) => {
         const {name, email, phone_number,password, code} = req.body;
         let checkuser;
-        if(code == process.env.APP_TOKEN){
-
       
+        let checkNumber;
+
+        try{
+          checkNumber= await User.findOne({phone_number});
+          }catch(err){
+            console.log(err);
+          }
+        if(checkNumber){
+          return res.status(200).json({message: "phone number already exists"});
+        }
+        
+        if(code == process.env.APP_TOKEN){
 
             try{
                checkuser= await User.findOne({email})
@@ -390,4 +426,33 @@ export const updatForgotPassword = async (req, res, next)=>{
           }
          
       return res.status(400).json({message: "All Fields Are Required"})
+}
+
+//update user delivery address
+export const updateDeliveryAddress = async (req, res, next)=>{
+           const address = req.body.location;
+           const id = req.user.id;
+           if(!address){
+            return res.status(400).json({message: "All fields are required"})
+           }
+           let existinguser;
+           try{
+              existinguser = await User.findById(id);
+           }catch(err){
+            console.log(err);
+           }
+           if(!existinguser){
+            return res.status(400).json({message: "No User With This Token Found"})
+           }
+
+           try{
+            existinguser=  await User.findByIdAndUpdate(id,{
+                location: address
+              });
+           }catch(error){
+              console.log(error);
+           }
+
+           return res.status(200).json({message:existinguser})
+          
 }

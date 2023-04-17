@@ -26,13 +26,16 @@ const userSchema = new Schema ({
           },
        location:{
               type: String,
-              required: false
+              required: false,
+             
        },
+    
        bookings:[{
         type : mongoose.Types.ObjectId,
         ref: "Bookings",
         required: true
        }]
+       
 
 });
 

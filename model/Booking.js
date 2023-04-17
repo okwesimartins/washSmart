@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const bookingsSchema = new Schema({
-         user:{
+        user:{
         type: mongoose.Types.ObjectId,
         ref: "User",
         required: true
@@ -28,6 +28,12 @@ const bookingsSchema = new Schema({
          order_number:{
             type:String,
             required: true
+         },
+
+         order_status:{
+              type: String,
+              required: true,
+              default: "processing_order"
          }
 });
 
