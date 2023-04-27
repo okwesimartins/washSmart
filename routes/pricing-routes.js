@@ -1,5 +1,5 @@
 import express from "express";
-import { createPricing,updatePricing, getpricingList, getsinglePricinglist} from "../controller/pricing-controller.js";
+import {updatePricing, getpricingList, getsinglePricinglist} from "../controller/pricing-controller.js";
 
 const pricingRouter = express.Router();
 

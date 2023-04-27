@@ -1,6 +1,7 @@
 import Booking from "../model/Booking.js";
 import mongoose from "mongoose";
 import Pricing from "../model/Pricing.js";
+import Location from "../model/Location.js";
 import User from "../model/User.js";
 import axios from "axios";
 import { sendOrderSummary } from "../services/mail-service.js";
@@ -59,12 +60,62 @@ import { sendOrderSummary } from "../services/mail-service.js";
                     const finalpriceAndQuantity = convert_to_number * Number(value.quantity)
                     amount += finalpriceAndQuantity;
                 }
-                else if(value.service_type == "ironing"){
-                  const finalprice = pricing.ironing;
+                else if(value.service_type == "wash_and_fold_smart_wash_yearly_plan_per_bag"){
+                  const finalprice = pricing.wash_and_fold_smart_wash_yearly_plan_per_bag;
                   const convert_to_number = Number(finalprice);
 
                   const finalpriceAndQuantity = convert_to_number * Number(value.quantity)
                   amount += finalpriceAndQuantity;
+              }
+              else if(value.service_type == "wash_iron_and_fold_one_time"){
+                  const finalprice = pricing.wash_iron_and_fold_one_time;
+                  const convert_to_number = Number(finalprice);
+
+                  const finalpriceAndQuantity = convert_to_number * Number(value.quantity)
+                  amount += finalpriceAndQuantity;
+              }
+              else if(value.service_type == "wash_iron_and_fold_smart_wash_yearly_plan_per_bag"){
+               const finalprice = pricing.wash_iron_and_fold_smart_wash_yearly_plan_per_bag;
+               const convert_to_number = Number(finalprice);
+
+               const finalpriceAndQuantity = convert_to_number * Number(value.quantity)
+               amount += finalpriceAndQuantity;
+           } else if(value.service_type == " wash_iron_and_fold_smart_wash"){
+            const finalprice = pricing.wash_iron_and_fold_smart_wash;
+            const convert_to_number = Number(finalprice);
+
+            const finalpriceAndQuantity = convert_to_number * Number(value.quantity)
+            amount += finalpriceAndQuantity;
+        }
+                else if(value.service_type == "ironing"){
+                  let data;
+                  const category = value.cloth_category;
+                  if(category == "top"){
+                     data = pricing.ironing.top;
+                  }
+                  if(category == "bottom"){
+                     data = pricing.ironing.bottom;
+                  }
+                  if(category == "full_body"){
+                     data = pricing.ironing.full_body;
+                  }
+                  if(category == "native_wear"){
+                     data = pricing.ironing.native_wear;
+                  }
+                  
+                 
+                  
+                  const fields = Array.isArray('name') ? 'name' : ['name'];
+                   const result = data.filter((item) => fields.some((field) => item[field] === value.cloth_name));
+                   let finalprice;
+
+                   result.forEach(value2 => {
+                     finalprice= value2.pricing
+                 });
+                  const convert_to_number = Number(finalprice);
+              
+                  const finalpriceAndQuantity = convert_to_number * Number(value.quantity)
+              amount += finalpriceAndQuantity;
               }
         });
 
@@ -98,7 +149,7 @@ export const createRequest = async (req, res, next)=> {
    }
    if(!req.body.ref){
 
-      message = "All fiels are required";
+      message = "All fields are required";
 
       return res.status(400).json({message});
   }
@@ -126,7 +177,10 @@ if(!user){
    
    //next,we confirm that there was no error in verification.
    
-
+   if(output.response && !output.response.data.status){
+   
+      return  res.status(400).json({message: "Error Verifying Payment"})
+   }
      let ts = Date.now();
 
      let date_ob = new Date(ts);
@@ -157,17 +211,14 @@ if(!user){
    
        return console.log(err);
    }
-   if(output.response && !output.response.data.status){
-   
-      const receiver = user.email;
-      sendOrderSummary(receiver, bookingdata, amount, orderNumber, booking_time);
-      return  res.status(400).json({message: "Error Verifying Payment"})
-   }
   
+  
+   const receiver = user.email;
+   sendOrderSummary(receiver, bookingdata, amount, orderNumber, booking_time);
 
    return res.status(200).json({message: "Order completed"})
  }
-
+//user booking history
  export const userBookinghistory = async (req, res, next)=> {
           const id = req.user.id;
           let history;
@@ -178,4 +229,19 @@ if(!user){
           }
 
          return res.status(200).json({history});
+ }
+
+ //get all supported location
+ export const getAllsupportedlocation = async (req, res, next)=>{
+   let allLocation;
+   try{
+     allLocation = await Location.find({}).where("status").equals("active");
+   }catch(err){
+     console.log(err);
+   }
+   if(!allLocation){
+     return res.status(400).json({message:"No location set yet"})
+   }
+
+   return res.status(200).json(allLocation);
  }

@@ -73,14 +73,91 @@ export const driverLogin = async (req, res, next) =>{
 //update drivers details
 
 export const updateDriversDetails = async (req, res, next)=>{
-         const {name, phone_number} = req.body;
+         const {id, name, email, phone_number} = req.body;
 
          const {error} = driverUpdateValidation(req.body);
          if(error){
             return res.status(400).json({message: error.details[0].message});
          }
+         
+         let checkDriver
+         try{
+            checkDriver = await Driver.findById(id);
+         }catch(err){
+            console.log(err);
+         }
 
+         if(!checkDriver){
+            res.status(200).json({message: "No user with this id found"});
+         }
+         try{
+          await new Driver.findByIdAndUpdate(id, {
+            name,
+            email,
+            phone_number
+           })
+         }catch(err){
+            console.log(err);
+         }
+
+      return  res.status(200).json({
+            messahe: "Driver info updated"
+         });
+         
 }
 
+//suspend drivers account
 
+export const suspendDriverAccount = async (req, res, next)=>{
+      const {id,status} = req.body.status;
+   
+      if(!id && !status){
+        res.status(200).json({message: "All fields are required"})
+      }
+       let checkDriver;
+      try{
+        checkDriver =  await Driver.findById(id)
+      }catch(err){
+        console.log(err);
+      }
+      if(!checkDriver){
+        res.status(200).json({message: "No user found with this id"});
+      }
+       
+      if(checkDriver.active == false){
+        try{
+            await Driver.findByIdAndUpdate(id,{
+                 active: true
+             });
+           }catch(err){
+              console.log(err)
+           }
 
+           return res.status(200).json({message: "Account activated"});
+      }else{
+        try{
+            await Driver.findByIdAndUpdate(id,{
+                 active: false
+             });
+           }catch(err){
+              console.log(err)
+           }
+
+           return res.status(200).json({message: "Account deactivated"});
+      }
+     
+}
+
+//get list off all drivers
+export const driverList = async (req, res, next)=> {
+     let drivers;
+       try{
+        drivers = Driver.find();
+       }catch(err){
+         console.log(err);
+       }
+
+       return res.status(200).json({drivers});
+}
+
+//accept trip

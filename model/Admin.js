@@ -1,8 +1,8 @@
-import { string } from "joi";
+
 import mongoose from "mongoose";
 
 
-const Schema = mongoose.Schema();
+const Schema = mongoose.Schema;
 
 const adminSchema =  new Schema({
          name:{
@@ -25,6 +25,10 @@ const adminSchema =  new Schema({
             type: String,
             required: true
         },
+        earnings: {
+         type: String,
+         required: true
+        }
 });
 
 export default mongoose.model("Admin", adminSchema);

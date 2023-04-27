@@ -39,6 +39,19 @@ export const IsUser = async (req, res, next) => {
             return res.status(401).json({message: "Unauthorized request"});
         }
     }catch{
-        return res.status(401).json({message: "sad request"});
+        return res.status(401).json({message: "bad request"});
+    }
+}
+
+export const IsAdmin = async (req, res, next) => {
+    try{
+        let checkuser = req.user.user_type;
+        if(checkuser == "admin"){
+           next();
+        }else{
+            return res.status(401).json({message: "Unauthorized request"});
+        }
+    }catch{
+        return res.status(401).json({message: "bad request"});
     }
 }
