@@ -80,7 +80,7 @@ import { sendOrderSummary } from "../services/mail-service.js";
 
                const finalpriceAndQuantity = convert_to_number * Number(value.quantity)
                amount += finalpriceAndQuantity;
-           } else if(value.service_type == " wash_iron_and_fold_smart_wash"){
+           } else if(value.service_type == "wash_iron_and_fold_smart_wash"){
             const finalprice = pricing.wash_iron_and_fold_smart_wash;
             const convert_to_number = Number(finalprice);
 

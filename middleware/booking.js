@@ -19,14 +19,14 @@ export const validateBookingData = async (req, res, next) =>{
                  
                  return false;
             }else{
-                if(value.service_type == "dry_cleaning"){
+                if(value.service_type == "dry_cleaning" || value.service_type == "ironing"){
                  
                     if(!value.service_name || !value.cloth_category || !value.cloth_name || !value.quantity  || !value.pricing){
                       message = "All fields in the dry cleaning service type are required";
         
                       return false;
                     }
-                 }else if(value.service_type == "wash_and_fold_one_time" || value.service_type == "wash and fold one time wash"){
+                 }else if(value.service_type == "wash_and_fold_one_time" || value.service_type == "wash_and_fold_smart_wash" || value.service_type == "wash_iron_and_fold_one_time" || value.service_type == "wash_iron_and_fold_smart_wash" ||  value.service_type == "wash_iron_and_fold_smart_wash_yearly_plan_per_bag" || value.service_type == "wash_and_fold_smart_wash_yearly_plan_per_bag"){
                     if(!value.service_name   || !value.quantity  || !value.pricing){
                         message = "All fields  are required";
         
