@@ -34,10 +34,6 @@ const bookingsSchema = new Schema({
             type:String,
             required: true
          },
-         request_category:{
-            type:String,
-            required: true
-         },
 
          order_status:{
               type: String,

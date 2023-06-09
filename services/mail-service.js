@@ -8,6 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 export const sendmail = async (receiver, otp) =>{
+   
     const transporter = nodemailer.createTransport({
       host: 'achan.ng',
       port: 465,
@@ -62,11 +63,11 @@ export const sendOrderSummary = async (receiver, bookingdata, amount, orderNumbe
 
   console.log(amount);
   const transporter = nodemailer.createTransport({
-      host: 'achan.ng',
+      host: 'pluralcode.institute',
       port: 465,
       auth: {
-        user: 'airporttaxi@achan.ng',
-        pass: 'watchout101'
+        user: 'testmail@pluralcode.institute',
+        pass: 'Saintseverus911@'
       },
       tls: {
           rejectUnauthorized: false
@@ -77,9 +78,9 @@ export const sendOrderSummary = async (receiver, bookingdata, amount, orderNumbe
             console.log(err);
           }else{
             const mailOptions = {
-              from: 'airporttaxi@achan.ng',
+              from: 'testmail@pluralcode.institute',
               to: receiver,
-              subject: 'OTP from washSmart',
+              subject: 'Order Summary from washSmart',
               html: data
             };
             

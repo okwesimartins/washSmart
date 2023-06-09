@@ -133,6 +133,7 @@ export const getTotalamount = async (req, res, next)=>{
 
 export const createRequest = async (req, res, next)=> {
    const bookingdata = req.body.items;
+   const pickup_time = req.body.pickup_time;
    const ref = req.body.ref;
    const id = req.user.id;
    const orderNumber      = `${Math.floor(100000 + Math.random() * 900000)}`;
@@ -194,7 +195,8 @@ if(!user){
        booking_item: bookingdata,
        booking_time : booking_time,
        total_amount: amount,
-       order_number: orderNumber
+       order_number: orderNumber,
+       pickup_time: pickup_time
    });
 
    try{

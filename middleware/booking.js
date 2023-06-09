@@ -4,7 +4,10 @@
 export const validateBookingData = async (req, res, next) =>{
   
     let message;
-
+    if(!req.body.pickup_time){
+      message= "pickup time is required";
+      return res.status(400).json({message});
+    }
     if(!req.body.items){
         message = "All fiels are required";
 
@@ -13,7 +16,7 @@ export const validateBookingData = async (req, res, next) =>{
     
     else{
         const items = req.body.items;
-        items.every(value => {
+        items.forEach(value => {
             if(!value.service_type){
                  message = "Service type field is required";
                  
@@ -26,7 +29,7 @@ export const validateBookingData = async (req, res, next) =>{
         
                       return false;
                     }
-                 }else if(value.service_type == "wash_and_fold_one_time" || value.service_type == "wash_and_fold_smart_wash" || value.service_type == "wash_iron_and_fold_one_time" || value.service_type == "wash_iron_and_fold_smart_wash" ||  value.service_type == "wash_iron_and_fold_smart_wash_yearly_plan_per_bag" || value.service_type == "wash_and_fold_smart_wash_yearly_plan_per_bag"){
+                 } if(value.service_type == "wash_and_fold_one_time" || value.service_type == "wash_and_fold_smart_wash" || value.service_type == "wash_iron_and_fold_one_time" || value.service_type == "wash_iron_and_fold_smart_wash" ||  value.service_type == "wash_iron_and_fold_smart_wash_yearly_plan_per_bag" || value.service_type == "wash_and_fold_smart_wash_yearly_plan_per_bag"){
                     if(!value.service_name   || !value.quantity  || !value.pricing){
                         message = "All fields  are required";
         
